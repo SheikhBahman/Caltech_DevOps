@@ -1,0 +1,30 @@
+pipeline {
+    agent any 
+    tools {
+        maven 'maven_3'
+        jdk 'java_8'
+    }
+    stages {
+        stage('Checkout the code') { 
+            steps {
+               git branch: 'bahmanDev', credentialsId: 'e0261c3c-9976-4308-9a32-c800f97a65d3',url: 'https://github.com/SheikhBahman/addressbook.git'
+            }
+        }
+        stage('Code Compile') { 
+            steps {
+                sh 'mvn compile' 
+            }
+        }
+        stage('Run Unit test') { 
+            steps {
+                sh 'mvn test' 
+            }
+        }
+        stage('Create Package') { 
+            steps {
+                sh 'mvn package' 
+            }
+        }
+
+    }
+}
