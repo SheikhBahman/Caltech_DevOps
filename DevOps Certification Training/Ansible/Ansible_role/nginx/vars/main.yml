@@ -1,0 +1,5 @@
+---
+# vars file for nginx
+server_con: 1024
+port_num: 9093
+
