@@ -1,0 +1,12 @@
+---
+- name: install lis of software
+  hosts: web
+  tasks:
+   - 
+    name: install list
+    apt: name={{item}} state=present
+    with_items:
+    - apache2
+    - ntp
+    - telnet
+    - net-tools

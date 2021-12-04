@@ -1,0 +1,14 @@
+---
+- name: install list of software
+  hosts: web
+  vars:
+   packages:
+    - apache2
+    - binutils
+    - ksh
+  tasks:
+   - name: installing packages
+     apt:
+        name: "{{ item }}"
+        state: present
+     with_items: "{{ packages }}"
