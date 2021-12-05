@@ -1,0 +1,12 @@
+---
+- hosts: web
+  tasks:
+  - name: "Start the Apache HTTPD Server"
+    become: true
+    become_user: root
+    register: starthttpd
+    shell: "systemctl status apache2"
+    changed_when: "'running' not in starthttpd.stdout"
+
+  - debug:
+      msg: "{{ starthttpd.stdout }}"

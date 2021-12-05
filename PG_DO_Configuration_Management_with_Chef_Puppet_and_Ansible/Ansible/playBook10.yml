@@ -1,0 +1,34 @@
+---
+-
+  hosts: web
+  name: install
+  tasks:
+   - name: install Apache2 on Ubunto
+     apt:
+      name: apache2
+      state: present
+      update_cache: yes
+
+   - name: Allow https traffic
+     ufw:
+       rule: allow
+       port: http
+       proto: tcp
+     notify:
+      - Restart Apache2
+      - Reload ufw firewall
+   - shell: cat /etc/resolv.conf
+     register: command_output
+
+   - shell: echo "nameserver 10.0.250.10" >> /etc/resolv.conf
+     when: command_output.stdout.find('10.0.250.10') == -1
+
+  handlers:
+   - name: Restart Apache2
+     service:
+       name: apache2
+       state: restarted
+   - name: Reload ufw firewall
+     ufw:
+       state: enabled  
+

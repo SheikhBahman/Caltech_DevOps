@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  tasks:
+   - name: install pakages
+     apt:
+       name: nmap
+       state: latest
+
+   - name: scan the host using nmap
+     shell: nmap "{{ ip_var }}"
+     register: out
+
+   - debug: var=out.stdout_lines

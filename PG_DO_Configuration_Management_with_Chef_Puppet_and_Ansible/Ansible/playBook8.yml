@@ -1,0 +1,10 @@
+---
+- name: Ansible archive example
+  hosts: localhost
+  tasks: 
+   - name: compress the file and remove
+     become: yes
+     archive:
+      path: /home/labsuser
+      dest: /tmp/myfiles.gz
+      remove: no

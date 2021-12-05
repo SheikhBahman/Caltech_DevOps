@@ -1,0 +1,30 @@
+---
+- name: Download openjdk
+  hosts: backend
+  tasks:
+   - name: Create user tomcat user
+     user:
+      name: tomcat
+      comment: John Cat
+      uid: 1041
+      group: admin
+
+   - name: Create a Directory /opt/tomcat8
+     become: yes
+     file:
+       path: /opt/tomcat8
+       state: directory
+       mode: 0755
+       owner: tomcat
+       group: admin
+
+   - name: Download Tomcat using get_url
+     become: yes
+     get_url:
+       url: 
+       dest: /opt/tomcat8
+       mode: 0755
+       checksum:
+       group: admin
+       owner: tomcat
+
