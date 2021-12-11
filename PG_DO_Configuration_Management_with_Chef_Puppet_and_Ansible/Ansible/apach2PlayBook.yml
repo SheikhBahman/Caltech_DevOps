@@ -1,0 +1,16 @@
+---
+- hosts: all
+  tasks:
+   - name: Install apache2 Package
+     apt: name=apache2 state=latest
+   - name: Copy apache2 configuration file
+     copy: src=/data/httpd.original dest=/etc/apache2/conf/httpd.conf
+   - name: Copy index.html file
+     copy: src=/data/index.html dest=/var/www/html
+     notify:
+      - restart apache
+   - name: Start and Enable apache2 service
+     service: name=apache2 state=restarted enabled=yes
+   handlers:
+   - name: restart apache
+     service: name=apache2 state=restarted

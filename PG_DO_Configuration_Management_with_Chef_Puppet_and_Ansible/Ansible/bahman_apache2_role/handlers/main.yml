@@ -1,0 +1,6 @@
+---
+# handlers file for bahman_apache2_role
+
+- name: restart apache
+  service: name=apache2 state=restarted
+
