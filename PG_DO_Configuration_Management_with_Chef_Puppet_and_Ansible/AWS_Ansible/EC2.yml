@@ -1,0 +1,29 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars:
+    region: us-east-1
+    key: my-key
+
+  tasks:
+    - name: Create a new key
+      ec2_key:
+        region: "{{ region  }}"
+        name: "{{ key }}"
+      register: keyoutput
+
+    - name: Write key to the file
+      copy: content = "{{ mykey.key.private_key }}" dest = "~/.ssh/{{ keyname }}.pem" mode 0400
+      when: keyoutput.changed
+
+    - name: Create EC2 instances
+      ec2:
+        key_name: "{{ key }}"
+        instance_type: t2.micro
+        image: ami-04ad2567c9e3d7893
+        region: "{{ region }}"
+        count: 2
+        wait: yes
+        instance_tags:
+          name: Ansible
+
