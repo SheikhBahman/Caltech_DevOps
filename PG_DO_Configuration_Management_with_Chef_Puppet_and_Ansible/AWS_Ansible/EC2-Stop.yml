@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  vars:
+    region: us-east-1
+    name: ansible
+  tasks:
+    - name: stop instance
+      ec2:
+        region: "{{ region }}"
+        instance_ids: "{{ ec2 }}"
+        state: stopped
+        wait: yes
