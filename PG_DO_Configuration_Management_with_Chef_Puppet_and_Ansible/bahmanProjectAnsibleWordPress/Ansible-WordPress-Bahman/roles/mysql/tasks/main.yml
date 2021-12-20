@@ -1,0 +1,62 @@
+---
+# tasks file for mysql
+#
+#- name: Start the MySQL service
+#  service: 
+#    name: mysql 
+#    state: started
+#    enabled: true
+#  become: yes
+
+- name: Create mysql database
+  mysql_db:
+    login_user: root
+    login_password: ''
+    name: "{{ wp_mysql_db }}" 
+    state: "present"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  become: yes
+
+- name: Set password for root user
+  mysql_user:   
+    login_user: root
+    login_password: ''
+    name: "root"
+    password: "{{ wp_mysql_password }}"
+    priv: '*.*:ALL,GRANT'
+    host_all: yes
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+    state: present
+
+
+- name: "Mysql Configuration - Resetting RootPassword"
+  mysql_user:
+    login_user: root
+    login_password: ''
+    name: root
+    host_all: yes  
+    password: "{{ wp_mysql_password }}"
+
+- name: "Mysql Configuration - Creating Wordpress Database"
+  mysql_db:
+    login_user: root
+    login_password: "{{wp_mysql_password}}"
+    db: "{{wp_mysql_db}}"
+    state: present
+
+#- name: Create database
+#  mysql_db:
+#    name: "{{ wp_mysql_db }}"
+#    login_unix_socket: /var/run/mysqld/mysql/mysqld.sock
+#    login_user: root
+#    login_password: ""
+#    state: present
+
+- name: Create mysql user
+  mysql_user:
+    name={{ wp_mysql_user }}
+    password={{ wp_mysql_password }}
+    priv=*.*:ALL
+  become: yes
+
+

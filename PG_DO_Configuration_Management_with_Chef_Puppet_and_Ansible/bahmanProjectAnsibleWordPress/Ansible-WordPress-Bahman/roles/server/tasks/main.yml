@@ -1,0 +1,32 @@
+---
+# tasks file for server
+#
+- name: Update apt cache
+  apt: update_cache=yes cache_valid_time=3600
+  become: yes
+
+- name: Add additional repository for php
+  ansible.builtin.apt_repository:
+    repo: ppa:ondrej/php
+
+- name: Add specified repository python-mysqldb
+  ansible.builtin.apt_repository:
+    repo: deb http://archive.ubuntu.com/ubuntu bionic main
+    state: present
+
+- name: Update apt cache
+  apt: update_cache=yes cache_valid_time=3600
+  become: yes
+
+- name: Install required software
+  apt: name={{ item }} state=present
+  become: yes
+  with_items:
+    - software-properties-common
+    - apache2
+    - mysql-server-8.0    
+    - mysql-server
+    - php7.2-mysql
+    - php7.2
+    - libapache2-mod-php7.2  
+    - python-mysqldb
