@@ -1,5 +1,5 @@
-- name: Download WordPress
-  get_url: url=https://wordpress.org/latest.zip dest=/tmp/wordpress.zip
+- name: Download WordPres://wordpress.org/latest.zips
+  get_url: url=https://wordpress.org/wordpress-5.1.11.zip dest=/tmp/wordpress.zip
   ignore_errors: yes
   tags: wordpress
 - name: Unzip WordPress
