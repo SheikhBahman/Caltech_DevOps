@@ -1,1 +1,1 @@
-Modified for AWS EC2 run from this original repo https://github.com/yigitke3/Wordpress-Ansible-Automation
+Modified to be run on AWS EC2 from this original repo https://github.com/yigitke3/Wordpress-Ansible-Automation
